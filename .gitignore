@@ -30,3 +30,10 @@
 
 # Debug files
 *.dSYM/
+
+# Build folders
+build/
+
+# waflocks
+*.lock-waf_linux2_build
+

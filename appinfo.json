@@ -1,0 +1,19 @@
+{
+  "uuid": "17bdf43f-bdf7-486e-8989-ab418a59b390",
+  "shortName": "band",
+  "longName": "band",
+  "companyName": "MakeAwesomeHappen",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": ["aplite", "basalt", "chalk"],
+  "enableMultiJS": true,
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": []
+  }
+}
