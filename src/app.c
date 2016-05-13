@@ -15,12 +15,11 @@ typedef struct AppData {
   char date_buffer[APP_DATE_BUFFER_MAX_SIZE];
   GFont number_font;
   GFont date_font;
+  Window *window;
   Layer *root_layer;
 } AppData;
 
 static AppData s_data;
-
-static Window *s_window;
 
 static void prv_window_layer_update_proc(Layer *layer, GContext *context) {
   const GRect layer_bounds = layer_get_bounds(layer);
@@ -85,9 +84,10 @@ static void prv_inbox_received_callback(DictionaryIterator *iterator, void *cont
 static void prv_init(void) {
   s_data.number_font = fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS);
   s_data.date_font = fonts_get_system_font(FONT_KEY_LECO_20_BOLD_NUMBERS);
-	s_window = window_create();
+	s_data.window = window_create();
 
-  Layer *window_layer = window_get_root_layer(s_window);
+  Window *window = s_data.window;
+  Layer *window_layer = window_get_root_layer(window);
   s_data.root_layer = window_layer;
   layer_set_update_proc(window_layer, prv_window_layer_update_proc);
 
@@ -104,11 +104,11 @@ static void prv_init(void) {
   app_message_open(inbox_size, outbox_size);
 
   const bool animated = true;
-  window_stack_push(s_window, animated);
+  window_stack_push(window, animated);
 }
 
 static void prv_deinit(void) {
-	window_destroy(s_window);
+	window_destroy(s_data.window);
 }
 
 int main(void) {
