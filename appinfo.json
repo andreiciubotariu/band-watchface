@@ -1,17 +1,24 @@
 {
   "uuid": "17bdf43f-bdf7-486e-8989-ab418a59b390",
-  "shortName": "band",
-  "longName": "band",
-  "companyName": "MakeAwesomeHappen",
+  "shortName": "Band",
+  "longName": "Band",
+  "companyName": "Andrei Ciubotariu",
   "versionLabel": "1.0",
   "sdkVersion": "3",
   "targetPlatforms": ["aplite", "basalt", "chalk"],
+  "capabilities": ["configurable"],
   "enableMultiJS": true,
   "watchapp": {
-    "watchface": false
+    "watchface": true
   },
   "appKeys": {
-    "dummy": 0
+    "AppKey_BackgroundColor": 0,
+    "AppKey_BandColor": 1,
+    "AppKey_TimeTextColor": 2,
+    "AppKey_DateFormat": 3,
+    "AppKey_DateTextColor": 4,
+    "AppKey_DisconnectIndicatorColor": 5,
+    "AppKey_VibeOnDisconnect": 6
   },
   "resources": {
     "media": []

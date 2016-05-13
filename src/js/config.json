@@ -1,0 +1,108 @@
+[
+  {
+    "type": "heading",
+    "defaultValue": "Band Configuration",
+    "size": 2
+  },
+
+  {
+    "type": "section",
+    "items": [
+      {
+        "type": "heading",
+        "defaultValue": "Colors"
+      },
+      {
+        "type": "color",
+        "appKey": "AppKey_BackgroundColor",
+        "defaultValue": "000000",
+        "label": "Background",
+        "sunlight": false,
+        "allowGray": true
+      },
+      {
+        "type": "color",
+        "appKey": "AppKey_BandColor",
+        "defaultValue": "FF0000",
+        "label": "Band",
+        "sunlight": false,
+        "allowGray": true
+      },
+      {
+        "type": "color",
+        "appKey": "AppKey_TimeTextColor",
+        "defaultValue": "FFFFFF",
+        "label": "Time text",
+        "sunlight": false,
+        "allowGray": true
+      },
+      {
+        "type": "color",
+        "appKey": "AppKey_DateTextColor",
+        "defaultValue": "FFFFFF",
+        "label": "Date text",
+        "sunlight": false,
+        "allowGray": true
+      },
+      {
+        "type": "color",
+        "appKey": "AppKey_DisconnectIndicatorColor",
+        "defaultValue": "FF0000",
+        "label": "Disconnect indicator",
+        "sunlight": false,
+        "allowGray": true
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "items": [
+      {
+        "type": "heading",
+        "defaultValue": "Misc"
+      },
+      {
+        "type": "select",
+        "appKey": "AppKey_DateFormat",
+        "defaultValue": 2,
+        "label": "Date format",
+        "options": [
+          {
+            "label": "dd-mm-yyyy",
+            "value": 0
+          },
+          {
+            "label": "dd/mm/yyyy",
+            "value": 1
+          },
+          {
+            "label": "mm-dd-yyyy",
+            "value": 2
+          },
+          {
+            "label": "mm/dd/yyyy",
+            "value": 3
+          },
+          {
+            "label": "yyyy-mm-dd",
+            "value": 4
+          },
+          {
+            "label": "yyyy/mm/dd",
+            "value": 5
+          }
+        ]
+      },
+      {
+        "type": "toggle",
+        "appKey": "AppKey_VibeOnDisconnect",
+        "label": "Vibrate on Disconnect",
+        "defaultValue": true
+      }
+    ]
+  },
+  {
+  "type": "submit",
+  "defaultValue": "Save"
+  }
+]
