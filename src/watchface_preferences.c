@@ -90,16 +90,6 @@ bool watchface_preferences_set_prefs(const WatchfacePrefs *prefs) {
   return (status == S_SUCCESS);
 }
 
-static uint8_t prv_get_uint8_from_dict(DictionaryIterator *iterator, AppKey app_key,
-                                       uint8_t default_value) {
-  Tuple *tuple = dict_find(iterator, app_key);
-  if (!tuple) {
-    return default_value;
-  }
-
-  return tuple->value->uint8;
-}
-
 static GColor prv_get_color_from_dict(DictionaryIterator *iterator, AppKey app_key,
                                       GColor default_color) {
   Tuple *tuple = dict_find(iterator, app_key);
@@ -148,8 +138,8 @@ bool watchface_preferences_create_from_dict(WatchfacePrefs *prefs_out,
                                                s_default_prefs.date_text_color),
     .disconnect_indicator_color = prv_get_color_from_dict(iterator, AppKey_DisconnectIndicatorColor,
         s_default_prefs.disconnect_indicator_color),
-    .vibe_on_disconnect = (bool) prv_get_uint8_from_dict(iterator, AppKey_VibeOnDisconnect,
-                                                         s_default_prefs.vibe_on_disconnect),
+    .vibe_on_disconnect = prv_get_bool_from_dict(iterator, AppKey_VibeOnDisconnect,
+                                                 s_default_prefs.vibe_on_disconnect),
   };
 
   return true;
