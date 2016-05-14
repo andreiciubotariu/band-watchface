@@ -59,7 +59,7 @@ static void prv_window_layer_update_proc(Layer *layer, GContext *context) {
 
   const int band_height = 50;
   const int band_top_bottom_padding = (layer_bounds.size.h - band_height) / 2;
-  const int band_left_right_padding = -2;
+  const int band_left_right_padding = 0;
   const GRect band_rect = grect_inset(layer_bounds, GEdgeInsets2(band_top_bottom_padding,
                                       band_left_right_padding));
   graphics_context_set_fill_color(context, s_data.prefs.band_color);
@@ -67,7 +67,7 @@ static void prv_window_layer_update_proc(Layer *layer, GContext *context) {
 
   // time
   GRect text_bounds = band_rect;
-  const int time_text_padding_reduction = 3;
+  const int time_text_padding_reduction = 2;
   text_bounds.origin.y -= time_text_padding_reduction;
   graphics_context_set_text_color(context, s_data.prefs.time_text_color);
   graphics_draw_text(context, s_data.time_buffer, s_data.number_font, text_bounds,
