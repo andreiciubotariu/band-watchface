@@ -47,7 +47,7 @@
       {
         "type": "color",
         "appKey": "AppKey_DisconnectIndicatorColor",
-        "defaultValue": "FF0000",
+        "defaultValue": "FFFFFF",
         "label": "Disconnect indicator",
         "sunlight": false,
         "allowGray": true

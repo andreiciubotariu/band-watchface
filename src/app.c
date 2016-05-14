@@ -44,7 +44,7 @@ static void prv_draw_disconnect_indicator(int layer_width, GContext *context, Ap
 #if PBL_RECT // draws a corner triangle
   gpath_draw_filled(context, data->disconnect_indicator_path);
 #else // draws a circle at top of the screen
-  const GPoint indicator_centre = GPoint((layer_width / 2), -5);
+  const GPoint indicator_centre = GPoint((layer_width / 2), -3);
   const int radius = 10;
   graphics_fill_circle(context, indicator_centre, radius);
 #endif

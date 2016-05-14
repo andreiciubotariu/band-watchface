@@ -32,7 +32,7 @@ static const WatchfacePrefs s_default_prefs =  {
     .time_text_color = {GColorWhiteARGB8},
     .date_format = DateFormat_MonthDayYearDashes,
     .date_text_color = {GColorWhiteARGB8},
-    .disconnect_indicator_color = {GColorRedARGB8},
+    .disconnect_indicator_color = {GColorWhiteARGB8},
     .vibe_on_disconnect = true,
   };
 
@@ -60,7 +60,6 @@ bool watchface_preferences_get_prefs(WatchfacePrefs *data_out) {
     return false;
   }
 
-  APP_LOG(APP_LOG_LEVEL_ERROR, "Dateformat: %u", serialized_prefs->date_format);
   *data_out = (WatchfacePrefs) {
     .background_color = {serialized_prefs->background_color},
     .band_color = {serialized_prefs->band_color},
