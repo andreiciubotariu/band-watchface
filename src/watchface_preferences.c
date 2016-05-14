@@ -52,13 +52,14 @@ bool watchface_preferences_get_prefs(WatchfacePrefs *data_out) {
   }
 
   size_t bytes_written = status;
-  if (bytes_written < buffer_size) {
+    SerializedPrefs *serialized_prefs = (SerializedPrefs *)buffer;
+  if ((bytes_written < buffer_size) ||
+      (serialized_prefs->version != SERIALIZED_PREFS_CURRENT_VERSION)) {
     APP_LOG(APP_LOG_LEVEL_ERROR, "Did not completely write buffer. Missing %u bytes",
             (buffer_size - bytes_written));
     return false;
   }
 
-  SerializedPrefs *serialized_prefs = (SerializedPrefs *)buffer;
   APP_LOG(APP_LOG_LEVEL_ERROR, "Dateformat: %u", serialized_prefs->date_format);
   *data_out = (WatchfacePrefs) {
     .background_color = {serialized_prefs->background_color},
@@ -66,7 +67,7 @@ bool watchface_preferences_get_prefs(WatchfacePrefs *data_out) {
     .time_text_color = {serialized_prefs->time_text_color},
     .date_format = serialized_prefs->date_format,
     .date_text_color = {serialized_prefs->date_text_color},
-    .disconnect_indicator_color = {serialized_prefs->date_text_color},
+    .disconnect_indicator_color = {serialized_prefs->disconnect_indicator_color},
     .vibe_on_disconnect = serialized_prefs->vibe_on_disconnect,
   };
 
@@ -75,6 +76,7 @@ bool watchface_preferences_get_prefs(WatchfacePrefs *data_out) {
 
 bool watchface_preferences_set_prefs(const WatchfacePrefs *prefs) {
   SerializedPrefs serialized_prefs = (SerializedPrefs) {
+    .version = SERIALIZED_PREFS_CURRENT_VERSION,
     .background_color = prefs->background_color.argb,
     .band_color = prefs->band_color.argb,
     .time_text_color = prefs->time_text_color.argb,

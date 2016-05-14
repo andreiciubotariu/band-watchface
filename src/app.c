@@ -11,15 +11,44 @@ typedef struct tm Time;
 
 typedef struct AppData {
   WatchfacePrefs prefs;
+  bool is_connected;
   char time_buffer[APP_TIME_BUFFER_MAX_SIZE];
   char date_buffer[APP_DATE_BUFFER_MAX_SIZE];
   GFont number_font;
   GFont date_font;
   Window *window;
   Layer *root_layer;
+#if PBL_RECT
+  GPath *disconnect_indicator_path;
+#endif
 } AppData;
 
 static AppData s_data;
+
+#if PBL_RECT
+#define WATCH_SCREEN_WIDTH (144)
+#define APP_DISCONNECT_INDICATOR_SIDE_LENGTH (25)
+
+static const GPathInfo s_disconnect_indicator_path_info = { // A corner triangle
+    .num_points = 3,
+    .points = (GPoint []) {
+      {(WATCH_SCREEN_WIDTH - APP_DISCONNECT_INDICATOR_SIDE_LENGTH), 0},
+      {WATCH_SCREEN_WIDTH, 0},
+      {WATCH_SCREEN_WIDTH, APP_DISCONNECT_INDICATOR_SIDE_LENGTH}
+    }
+  };
+#endif
+
+static void prv_draw_disconnect_indicator(int layer_width, GContext *context, AppData *data) {
+  graphics_context_set_fill_color(context, data->prefs.disconnect_indicator_color);
+#if PBL_RECT // draws a corner triangle
+  gpath_draw_filled(context, data->disconnect_indicator_path);
+#else // draws a circle at top of the screen
+  const GPoint indicator_centre = GPoint((layer_width / 2), -5);
+  const int radius = 10;
+  graphics_fill_circle(context, indicator_centre, radius);
+#endif
+}
 
 static void prv_window_layer_update_proc(Layer *layer, GContext *context) {
   const GRect layer_bounds = layer_get_bounds(layer);
@@ -49,6 +78,10 @@ static void prv_window_layer_update_proc(Layer *layer, GContext *context) {
   graphics_context_set_text_color(context, s_data.prefs.date_text_color);
   graphics_draw_text(context, s_data.date_buffer, s_data.date_font, text_bounds,
                      GTextOverflowModeFill , GTextAlignmentCenter, NULL);
+
+  if (!s_data.is_connected) {
+    prv_draw_disconnect_indicator(layer_bounds.size.w, context, &s_data);
+  }
 }
 
 static void prv_tick_handler(Time *tick_time, TimeUnits units_changed) {
@@ -81,6 +114,15 @@ static void prv_inbox_received_callback(DictionaryIterator *iterator, void *cont
   }
 }
 
+static void prv_bluetooth_connection_changed(bool connected) {
+  s_data.is_connected = connected;
+  layer_mark_dirty(s_data.root_layer);
+
+  if (!connected && s_data.prefs.vibe_on_disconnect) {
+    vibes_double_pulse();
+  }
+}
+
 static void prv_init(void) {
   s_data.number_font = fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS);
   s_data.date_font = fonts_get_system_font(FONT_KEY_LECO_20_BOLD_NUMBERS);
@@ -98,6 +140,15 @@ static void prv_init(void) {
   prv_forced_time_format_update();
   tick_timer_service_subscribe(APP_TICK_UNITS, prv_tick_handler);
 
+#if PBL_RECT
+  s_data.disconnect_indicator_path = gpath_create(&s_disconnect_indicator_path_info);
+#endif
+  s_data.is_connected = connection_service_peek_pebble_app_connection();
+  ConnectionHandlers connection_handler = (ConnectionHandlers) {
+    .pebble_app_connection_handler = prv_bluetooth_connection_changed,
+  };
+  connection_service_subscribe(connection_handler);
+
   app_message_register_inbox_received(prv_inbox_received_callback);
   const int inbox_size = 128;
   const int outbox_size = 0;
@@ -108,7 +159,12 @@ static void prv_init(void) {
 }
 
 static void prv_deinit(void) {
+  connection_service_unsubscribe();
+  tick_timer_service_unsubscribe();
 	window_destroy(s_data.window);
+#if PBL_RECT
+  gpath_destroy(s_data.disconnect_indicator_path);
+#endif
 }
 
 int main(void) {
