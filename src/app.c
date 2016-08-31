@@ -51,12 +51,13 @@ static void prv_draw_disconnect_indicator(int layer_width, GContext *context, Ap
 }
 
 static void prv_window_layer_update_proc(Layer *layer, GContext *context) {
-  const GRect layer_bounds = layer_get_bounds(layer);
-
   // background
+  const GRect full_layer_bounds = layer_get_bounds(layer);
   graphics_context_set_fill_color(context, s_data.prefs.background_color);
-  graphics_fill_rect(context, layer_bounds, 0, GCornerNone);
+  graphics_fill_rect(context, full_layer_bounds, 0, GCornerNone);
 
+  // Everything else
+  const GRect layer_bounds =  layer_get_unobstructed_bounds(layer);
   const int band_height = 50;
   const int band_top_bottom_padding = (layer_bounds.size.h - band_height) / 2;
   const int band_left_right_padding = 0;
