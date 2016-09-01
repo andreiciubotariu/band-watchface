@@ -89,7 +89,8 @@ bool watchface_preferences_set_prefs(const WatchfacePrefs *prefs) {
   return (status == S_SUCCESS);
 }
 
-static GColor prv_get_color_from_dict(DictionaryIterator *iterator, const uint32_t message_key,
+static GColor prv_get_color_from_dict(const DictionaryIterator *iterator,
+                                      const uint32_t message_key,
                                       GColor default_color) {
   Tuple *tuple = dict_find(iterator, message_key);
   if (!tuple) {
@@ -99,8 +100,8 @@ static GColor prv_get_color_from_dict(DictionaryIterator *iterator, const uint32
   return GColorFromHEX(tuple->value->int32);
 }
 
-static int32_t prv_get_int32_from_dict(DictionaryIterator *iterator, const uint32_t message_key,
-                                        int32_t default_value) {
+static int32_t prv_get_int32_from_dict(const DictionaryIterator *iterator,
+                                       const uint32_t message_key, int32_t default_value) {
   Tuple *tuple = dict_find(iterator, message_key);
   if (!tuple) {
     return default_value;
@@ -109,7 +110,7 @@ static int32_t prv_get_int32_from_dict(DictionaryIterator *iterator, const uint3
   return tuple->value->int32;
 }
 
-static bool prv_get_bool_from_dict(DictionaryIterator *iterator, const uint32_t message_key,
+static bool prv_get_bool_from_dict(const DictionaryIterator *iterator, const uint32_t message_key,
                                    bool default_value) {
   Tuple *tuple = dict_find(iterator, message_key);
   if (!tuple) {
@@ -120,7 +121,7 @@ static bool prv_get_bool_from_dict(DictionaryIterator *iterator, const uint32_t 
 }
 
 bool watchface_preferences_create_from_dict(WatchfacePrefs *prefs_out,
-                                            DictionaryIterator *iterator) {
+                                            const DictionaryIterator *iterator) {
   if (!prefs_out) {
     return false;
   }
@@ -128,14 +129,16 @@ bool watchface_preferences_create_from_dict(WatchfacePrefs *prefs_out,
   *prefs_out = (WatchfacePrefs) {
     .background_color = prv_get_color_from_dict(iterator, MESSAGE_KEY_BackgroundColor,
                                                 s_default_prefs.background_color),
-    .band_color = prv_get_color_from_dict(iterator, MESSAGE_KEY_BandColor, s_default_prefs.band_color),
+    .band_color = prv_get_color_from_dict(iterator, MESSAGE_KEY_BandColor,
+                                          s_default_prefs.band_color),
     .time_text_color = prv_get_color_from_dict(iterator, MESSAGE_KEY_TimeTextColor,
                                                s_default_prefs.time_text_color),
     .date_format = prv_get_int32_from_dict(iterator, MESSAGE_KEY_DateFormat,
                                            s_default_prefs.date_format),
     .date_text_color = prv_get_color_from_dict(iterator, MESSAGE_KEY_DateTextColor,
                                                s_default_prefs.date_text_color),
-    .disconnect_indicator_color = prv_get_color_from_dict(iterator, MESSAGE_KEY_DisconnectIndicatorColor,
+    .disconnect_indicator_color = prv_get_color_from_dict(iterator,
+                                                          MESSAGE_KEY_DisconnectIndicatorColor,
         s_default_prefs.disconnect_indicator_color),
     .vibe_on_disconnect = prv_get_bool_from_dict(iterator, MESSAGE_KEY_VibeOnDisconnect,
                                                  s_default_prefs.vibe_on_disconnect),
@@ -145,6 +148,6 @@ bool watchface_preferences_create_from_dict(WatchfacePrefs *prefs_out,
   return true;
 }
 
-const char *watchface_preferences_get_date_format(DateFormat format) {
+const char *watchface_preferences_get_date_format(const DateFormat format) {
   return s_date_formats[format];
 }
