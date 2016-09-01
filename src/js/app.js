@@ -1,5 +1,7 @@
-var Clay = require('clay');
-var clayConfig = require('config.json');
+var Clay = require('pebble-clay');
+var messageKeys = require('message_keys');
+var clayConfig = require('./clay-config.json');
+
 //var clay = new Clay(clayConfig);
 var clay = new Clay(clayConfig, null, { autoHandleEvents: false });
 
@@ -16,8 +18,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
   var dict = clay.getSettings(e.response);
 
   // Force "select" item value into a number
-  var dateFormatKey = "AppKey_DateFormat";
-  dict[dateFormatKey] = parseInt(dict[dateFormatKey], 10 /* radix */);
+  dict[messageKeys.DateFormat] = parseInt(dict[messageKeys.DateFormat], 10 /* radix */);
 
   // Send settings values to watch side
   Pebble.sendAppMessage(dict, function(e) {

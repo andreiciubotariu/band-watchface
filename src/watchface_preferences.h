@@ -26,6 +26,7 @@ bool watchface_preferences_get_prefs(WatchfacePrefs *data_out);
 
 bool watchface_preferences_set_prefs(const WatchfacePrefs *prefs);
 
-bool watchface_preferences_create_from_dict(WatchfacePrefs *out, DictionaryIterator *iterator);
+bool watchface_preferences_create_from_dict(WatchfacePrefs *out,
+                                            const DictionaryIterator *iterator);
 
 const char *watchface_preferences_get_date_format(const DateFormat format);
