@@ -14,7 +14,7 @@
       },
       {
         "type": "color",
-        "appKey": "AppKey_BackgroundColor",
+        "messageKey": "BackgroundColor",
         "defaultValue": "000000",
         "label": "Background",
         "sunlight": false,
@@ -22,7 +22,7 @@
       },
       {
         "type": "color",
-        "appKey": "AppKey_BandColor",
+        "messageKey": "BandColor",
         "defaultValue": "FF0000",
         "label": "Band",
         "sunlight": false,
@@ -30,7 +30,7 @@
       },
       {
         "type": "color",
-        "appKey": "AppKey_TimeTextColor",
+        "messageKey": "TimeTextColor",
         "defaultValue": "FFFFFF",
         "label": "Time text",
         "sunlight": false,
@@ -38,7 +38,7 @@
       },
       {
         "type": "color",
-        "appKey": "AppKey_DateTextColor",
+        "messageKey": "DateTextColor",
         "defaultValue": "FFFFFF",
         "label": "Date text",
         "sunlight": false,
@@ -46,7 +46,7 @@
       },
       {
         "type": "color",
-        "appKey": "AppKey_DisconnectIndicatorColor",
+        "messageKey": "DisconnectIndicatorColor",
         "defaultValue": "FFFFFF",
         "label": "Disconnect indicator",
         "sunlight": false,
@@ -63,7 +63,7 @@
       },
       {
         "type": "select",
-        "appKey": "AppKey_DateFormat",
+        "messageKey": "DateFormat",
         "defaultValue": 2,
         "label": "Date format",
         "options": [
@@ -95,7 +95,7 @@
       },
       {
         "type": "toggle",
-        "appKey": "AppKey_VibeOnDisconnect",
+        "messageKey": "VibeOnDisconnect",
         "label": "Vibrate on Disconnect",
         "defaultValue": true
       }
